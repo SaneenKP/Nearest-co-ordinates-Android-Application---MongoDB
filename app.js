@@ -14,3 +14,5 @@ var main = async () => {
     }
 
 }
+
+main().catch(console.error)
