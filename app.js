@@ -1,4 +1,4 @@
-const { MongoClient } = require('MongoClient')
+const { MongoClient } = require('mongodb')
 
 var main = async () => {
 
