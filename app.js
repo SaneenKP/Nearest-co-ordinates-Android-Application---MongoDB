@@ -90,6 +90,9 @@ var main = async () => {
 
 main().catch(console.error)
 
+var findOneListingByName = async () => {
+
+}
 
 var createMultipleListing = async (client , listing) => {
 
