@@ -11,14 +11,6 @@ var main = async () => {
         await client.connect();
         await createMultipleListing(client , [
             {
-                name: "saneen_kp",
-                location: {
-                    type: "Point",
-                    coordinates: [10.044324207119644 , 76.33359932340682]
-                },
-                has_joined : true,
-            },
-            {
                 name: "athul_krishna",
                 location: {
                     type: "Point",
