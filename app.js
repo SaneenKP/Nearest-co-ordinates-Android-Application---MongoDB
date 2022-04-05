@@ -94,7 +94,7 @@ var main = async () => {
 main().catch(console.error)
 
 var findOneListingByName = async (client , nameOfListing) => {
-    const result = await client.db("sample_location").collection("UsersAndLocations").findOne();
+    const result = await client.db("sample_location").collection("UsersAndLocations").findOne({name: nameOfListing});
     if(result){
         console.log("the name of the listing : " + nameOfListing);
         console.log(result);
