@@ -9,7 +9,7 @@ var main = async () => {
 
     try{
         await client.connect();
-        await createMultipleListing(client , [
+        /*await createMultipleListing(client , [
             {
                 name: "athul_krishna",
                 location: {
@@ -79,7 +79,7 @@ var main = async () => {
             has_joined : true,
         }
         )
-
+        */
     }catch(e){
         console.log("error :" + e);
     }finally{
