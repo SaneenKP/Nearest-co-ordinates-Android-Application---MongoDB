@@ -9,6 +9,9 @@ var main = async () => {
 
     try{
         await client.connect();
+
+        await findOneListingByName(client , "saneen_kp")
+
         /*await createMultipleListing(client , [
             {
                 name: "athul_krishna",
@@ -90,8 +93,14 @@ var main = async () => {
 
 main().catch(console.error)
 
-var findOneListingByName = async () => {
-
+var findOneListingByName = async (client , nameOfListing) => {
+    const result = await client.db("sample_location").collection("UsersAndLocations").findOne();
+    if(result){
+        console.log("the name of the listing : " + nameOfListing);
+        console.log(result);
+    }else{
+        console.log("no listings found with the result.");
+    }
 }
 
 var createMultipleListing = async (client , listing) => {
