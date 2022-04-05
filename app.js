@@ -9,15 +9,25 @@ var main = async () => {
 
     try{
         await client.connect();
-        await createListing(client , 
-            {
-                name: "saneen_kp",
-                location: {
-                    type: "Point",
-                    coordinates: [10.044324207119644 , 76.33359932340682]
-                },
-                has_joined : true,
-            }
+        await createListing(client ,
+        // {
+        //     user:{
+        //         name: "saneen_kp",
+        //         location: {
+        //             type: "Point",
+        //             coordinates: [10.044324207119644 , 76.33359932340682],
+        //         },
+        //         has_joined: true,
+        //     }
+        // }
+        {
+            name: "saneen_kp",
+            location: {
+                type: "Point",
+                coordinates: [10.044324207119644 , 76.33359932340682]
+            },
+            has_joined : true,
+        }
         )
 
     }catch(e){
@@ -30,6 +40,12 @@ var main = async () => {
 
 main().catch(console.error)
 
+
+var createMultipleListing = async (client , listing) => {
+
+    const result = await client.db("sample_location").collection("UsersAndLocations").insertMany(listing);
+    console.log(result.insertedCounts+" No. of documents inserted :" + result.insertedIds);
+}
 
 var createListing = async (client , newListing) => {
     const result = await client.db("sample_location").collection("UsersAndLocations").insertOne(newListing);
