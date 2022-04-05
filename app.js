@@ -94,7 +94,9 @@ main().catch(console.error)
 var createMultipleListing = async (client , listing) => {
 
     const result = await client.db("sample_location").collection("UsersAndLocations").insertMany(listing);
-    console.log(result.insertedCounts+" No. of documents inserted :" + result.insertedIds);
+    console.log(result.insertedCount+" No. of documents inserted :");
+    console.log(result.insertedIds);
+    
 }
 
 var createListing = async (client , newListing) => {
