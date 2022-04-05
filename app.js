@@ -35,18 +35,26 @@ var main = async () => {
                 has_joined : true,
             },
             {
-                name: "saneen_kp",
+                name: "elson_jose",
                 location: {
                     type: "Point",
-                    coordinates: [10.044324207119644 , 76.33359932340682]
+                    coordinates: [10.047580964744647 , 76.3335170969367]
                 },
                 has_joined : true,
             },
             {
-                name: "saneen_kp",
+                name: "junaid_tk",
                 location: {
                     type: "Point",
-                    coordinates: [10.044324207119644 , 76.33359932340682]
+                    coordinates: [10.044301198795438 , 76.33308257907629]
+                },
+                has_joined : true,
+            },
+            {
+                name: "emilie_clarke",
+                location: {
+                    type: "Point",
+                    coordinates: [10.04436674527824 , 76.3336140755564]
                 },
                 has_joined : true,
             },
