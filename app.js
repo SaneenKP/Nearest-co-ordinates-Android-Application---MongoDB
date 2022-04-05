@@ -9,16 +9,16 @@ var main = async () => {
 
     try{
         await client.connect();
-        await createListing(client , {
-            user: {
-                name: "saneen",
+        await createListing(client , 
+            {
+                name: "saneen_kp",
                 location: {
                     type: "Point",
                     coordinates: [10.044324207119644 , 76.33359932340682]
                 },
                 has_joined : true,
             }
-        })
+        )
 
     }catch(e){
         console.log("error :" + e);
@@ -29,6 +29,12 @@ var main = async () => {
 }
 
 main().catch(console.error)
+
+
+var createListing = async (client , newListing) => {
+    const result = await client.db("sample_location").collection("UsersAndLocations").insertOne(newListing);
+    console.log("new listing created with listing ID :" + result.insertedId);
+}
 
 async function listDatabases(client){
     const databaseList = await client.db().admin().listDatabases();
