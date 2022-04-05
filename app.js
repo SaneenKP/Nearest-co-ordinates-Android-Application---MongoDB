@@ -9,6 +9,56 @@ var main = async () => {
 
     try{
         await client.connect();
+        await createMultipleListing(client , [
+            {
+                name: "saneen_kp",
+                location: {
+                    type: "Point",
+                    coordinates: [10.044324207119644 , 76.33359932340682]
+                },
+                has_joined : true,
+            },
+            {
+                name: "athul_krishna",
+                location: {
+                    type: "Point",
+                    coordinates: [10.044336779974401 , 76.33358725346625]
+                },
+                has_joined : true,
+            },
+            {
+                name: "saneen_kp",
+                location: {
+                    type: "Point",
+                    coordinates: [10.044324207119644 , 76.33359932340682]
+                },
+                has_joined : true,
+            },
+            {
+                name: "saneen_kp",
+                location: {
+                    type: "Point",
+                    coordinates: [10.044324207119644 , 76.33359932340682]
+                },
+                has_joined : true,
+            },
+            {
+                name: "saneen_kp",
+                location: {
+                    type: "Point",
+                    coordinates: [10.044324207119644 , 76.33359932340682]
+                },
+                has_joined : true,
+            },
+            {
+                name: "saneen_kp",
+                location: {
+                    type: "Point",
+                    coordinates: [10.044324207119644 , 76.33359932340682]
+                },
+                has_joined : true,
+            },
+        ])
         await createListing(client ,
         // {
         //     user:{
