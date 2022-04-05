@@ -10,7 +10,7 @@ var main = async () => {
     try{
         await client.connect();
 
-        await findOneListingByName(client , "saneen_kp")
+        await findOneListingByName(client , "mohammed_fahad")
 
         /*await createMultipleListing(client , [
             {
