@@ -9,7 +9,17 @@ var main = async () => {
 
     try{
         await client.connect();
-        await listDatabases(client)
+        await createListing(client , {
+            user: {
+                name: "saneen",
+                location: {
+                    type: "Point",
+                    coordinates: [10.044324207119644 , 76.33359932340682]
+                },
+                has_joined : true,
+            }
+        })
+
     }catch(e){
         console.log("error :" + e);
     }finally{
