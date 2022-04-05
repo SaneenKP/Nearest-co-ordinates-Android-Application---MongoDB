@@ -27,10 +27,10 @@ var main = async () => {
                 has_joined : true,
             },
             {
-                name: "saneen_kp",
+                name: "mohammed_fahad",
                 location: {
                     type: "Point",
-                    coordinates: [10.044324207119644 , 76.33359932340682]
+                    coordinates: [10.044242483563721,76.3335170969367]
                 },
                 has_joined : true,
             },
