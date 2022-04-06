@@ -11,7 +11,7 @@ var main = async () => {
         await client.connect();
 
         // await findOneListingByName(client , 10.044242483563721 , 76.3335170969367)
-        await findListingWithCoordinates(client , true)
+        await findListingWithCoordinates(client , false)
 
         /*await createMultipleListing(client , [
             {
@@ -95,10 +95,13 @@ var main = async () => {
 main().catch(console.error)
 
 var findListingWithCoordinates = async (client , has_joined) => {
-    const result = await client.db("sample_location").collection("UsersAndLocations").find({has_joined: has_joined});
-    if(result){
-        console.log("name of the listing : " + result.name);
+    const cursor = await client.db("sample_location").collection("UsersAndLocations").find({has_joined: has_joined});
+    const result = await cursor.toArray();
+    if(result == null){
+        console.log("name of the listing : ");
         console.log(result);
+    }else{
+        console.log("sorry no results found");
     }
 }
 
