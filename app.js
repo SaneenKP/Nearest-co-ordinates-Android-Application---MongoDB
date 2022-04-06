@@ -10,7 +10,8 @@ var main = async () => {
     try{
         await client.connect();
 
-        await findOneListingByName(client , 10.044242483563721 , 76.3335170969367)
+        // await findOneListingByName(client , 10.044242483563721 , 76.3335170969367)
+        await findListingWithCoordinates(client , true)
 
         /*await createMultipleListing(client , [
             {
@@ -92,6 +93,14 @@ var main = async () => {
 }
 
 main().catch(console.error)
+
+var findListingWithCoordinates = async (client , has_joined) => {
+    const result = await client.db("sample_location").collection("UsersAndLocations").find({has_joined: has_joined});
+    if(result){
+        console.log("name of the listing : " + result.name);
+        console.log(result);
+    }
+}
 
 var findOneListingByName = async (client , c1 , c2) => {
     const result = await client.db("sample_location").collection("UsersAndLocations").findOne({location : {type: "Point",coordinates: [c1 , c2]}});
