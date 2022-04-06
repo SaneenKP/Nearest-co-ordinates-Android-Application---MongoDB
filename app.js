@@ -98,24 +98,28 @@ main().catch(console.error)
 var findNearest = async (client , longitude , latitude) => {
     const result = await client.db("sample_location") .collection("UsersAndLocations").createIndex({"location" : "2dsphere"})
     const resultCursor = await client.db("sample_location") .collection("UsersAndLocations").find(
+    {
+        location: 
         {
-            location: {
-                $near: {
-                    $geometry: {
-                        type: "Point",
-                        coordinates: [longitude , latitude],
-                    },
-                    $maxDistance: 100
-                }
-            }
-        }
+            $near: 
+            { 
+                $geometry : 
+                { 
+                    type: "Point" , 
+                    coordinates : [10.04436674527824 , 76.3336140755564] 
+                }, 
+                $maxDistance: 100,
+                $minDistance: 30,
+            }, 
+        }, 
+    }
     )
 
     const finalResult = await resultCursor.toArray();
     if(finalResult.length === 0){
         console.log("sorry no results found : ");
     }else{
-        console.log(result);
+        console.log(finalResult);
     }
 
 }
