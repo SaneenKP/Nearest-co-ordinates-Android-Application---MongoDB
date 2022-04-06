@@ -9,9 +9,10 @@ var main = async () => {
 
     try{
         await client.connect();
+        await findNearest(client , 76.33359932340682, 10.044324207119644)
 
         // await findOneListingByName(client , 10.044242483563721 , 76.3335170969367)
-        await findListingWithCoordinates(client , false)
+        //await findListingWithCoordinates(client , false)
 
         /*await createMultipleListing(client , [
             {
@@ -93,6 +94,31 @@ var main = async () => {
 }
 
 main().catch(console.error)
+
+var findNearest = async (client , longitude , latitude) => {
+    const result = await client.db("sample_location") .collection("UsersAndLocations").createIndex({"location" : "2dsphere"})
+    const resultCursor = await client.db("sample_location") .collection("UsersAndLocations").find(
+        {
+            location: {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [longitude , latitude],
+                    },
+                    $maxDistance: 100
+                }
+            }
+        }
+    )
+
+    const finalResult = await resultCursor.toArray();
+    if(finalResult.length === 0){
+        console.log("sorry no results found : ");
+    }else{
+        console.log(result);
+    }
+
+}
 
 var findListingWithCoordinates = async (client , has_joined) => {
     const cursor = await client.db("sample_location").collection("UsersAndLocations").find({has_joined: has_joined});
