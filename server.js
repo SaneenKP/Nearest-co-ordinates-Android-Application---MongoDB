@@ -8,7 +8,9 @@ const server = http.createServer((req , res) => {
     var path = parsedURL.pathname;
     var queryString = parsedURL.query;
 
-    
+    var headers = req.headers;
+    var method = req.method.toLowerCase();
+
 
 
 
