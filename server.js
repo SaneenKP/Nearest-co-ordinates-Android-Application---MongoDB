@@ -13,11 +13,15 @@ const server = http.createServer((req , res) => {
 
     var buffer = "";
 
-    req.on('data' , (data) =>{
-        buffer+=data;
 
+    req.on('data' , (data) =>{
+
+        buffer+=data;
         if(method == http.METHODS[19]){
-            console.log("post got ");
+
+            var route = path;
+            
+
         }
 
 
@@ -40,9 +44,18 @@ server.listen(PORT , () => {
 
 var routes = {
     nearByLocation : (data , res) => {
-
+        var payLoad = {
+            name:"Saneen" ,
+            class: "itb",
+        }
+        res.setHeader('Content_Type','application/json')
+        res.setHeader('Access-Control-Allow-Origin','*')
+        res.writeHead(200)
+        res.write(payLoad)
+        res.end()
     },
     notFound : (data , res) => {
         res.write("No Result Found");
+        res.end()
     }
 }
