@@ -12,6 +12,14 @@ const server = http.createServer((req , res) => {
     var method = req.method.toLowerCase();
 
 
+    req.on('data' , (data) =>{
+        console.log("got some data : " + data);
+    })
+
+    req.on('end' , () => {
+        res.end("hello world")
+    })
+
 
 
 })
