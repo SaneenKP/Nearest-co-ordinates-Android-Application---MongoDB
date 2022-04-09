@@ -1,6 +1,7 @@
 const http = require('http');
 const { type } = require('os');
 const url = require('url');
+const { StringDecoder } = require('string_decoder');
 
 const PORT = (process.env.PORT) ? process.env.PORT : 3000;
 
@@ -11,6 +12,8 @@ const server = http.createServer((req , res) => {
 
     var headers = req.headers;
     var method = req.method.toUpperCase();
+    
+    var decoder = new StringDecoder('utf-8')
 
     path = path.replace(/^\/+|\/+$/g,"");
 
@@ -19,22 +22,14 @@ const server = http.createServer((req , res) => {
 
     req.on('data' , (data) =>{
 
-        buffer+=data;
-        if(method == http.METHODS[19]){
-
-            var route = typeof routes[path] != "undefined" ? routes[path] : routes[notFound]
-            route(buffer.toString() , res)
-
-        }
-
-
+        buffer+=decoder.write(data);
     })
 
     req.on('end' , () => {
-        res.writeHead(200 , "OK" , {'Content-Type' : 'text/plain'})
-        res.write("The response is : ")
-        res.write(buffer)
-        res.end("End of message")
+        if(method == http.METHODS[19]){
+            var route = typeof routes[path] != "undefined" ? routes[path] : routes[notFound]
+            route(buffer, res)
+        }
     })
 
 
@@ -47,11 +42,12 @@ server.listen(PORT , () => {
 
 var routes = {
     nearByLocation : (data , res) => {
-        var {coordinates} = data
+
+        var {coordinates} = JSON.parse(data)
+        console.log(coordinates[0]);
         res.setHeader('Content_Type','application/json')
         res.setHeader('Access-Control-Allow-Origin','*')
         res.writeHead(200)
-        res.write(coordinates)
         res.end()
     },
     notFound : (data , res) => {
