@@ -1,4 +1,5 @@
 const http = require('http');
+const { type } = require('os');
 const url = require('url');
 
 const PORT = (process.env.PORT) ? process.env.PORT : 3000;
@@ -11,6 +12,8 @@ const server = http.createServer((req , res) => {
     var headers = req.headers;
     var method = req.method.toUpperCase();
 
+    path = path.replace(/^\/+|\/+$/g,"");
+
     var buffer = "";
 
 
@@ -19,7 +22,9 @@ const server = http.createServer((req , res) => {
         buffer+=data;
         if(method == http.METHODS[19]){
 
-            var route = path;
+            var route = typeof route[path] != "undefined" ? routes[nearByLocation] : routes[notFound]
+
+            
             
 
         }
