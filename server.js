@@ -9,12 +9,18 @@ const server = http.createServer((req , res) => {
     var queryString = parsedURL.query;
 
     var headers = req.headers;
-    var method = req.method.toLowerCase();
+    var method = req.method.toUpperCase();
 
     var buffer = "";
 
     req.on('data' , (data) =>{
         buffer+=data;
+
+        if(method == http.METHODS[19]){
+            console.log("post got ");
+        }
+
+
     })
 
     req.on('end' , () => {
