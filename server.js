@@ -1,7 +1,7 @@
 const http = require('http');
 const url = require('url');
 
-const PORT = (process.env.PORT) ? process.env.PORT : 8080;
+const PORT = (process.env.PORT) ? process.env.PORT : 3000;
 
 const server = http.createServer((req , res) => {
     var parsedURL = url.parse(req.url , true);
@@ -11,13 +11,17 @@ const server = http.createServer((req , res) => {
     var headers = req.headers;
     var method = req.method.toLowerCase();
 
+    var buffer = "";
 
     req.on('data' , (data) =>{
-        console.log("got some data : " + data);
+        buffer+=data;
     })
 
     req.on('end' , () => {
-        res.end("hello world")
+        res.writeHead(200 , "OK" , {'Content-Type' : 'text/plain'})
+        res.write("The response is : ")
+        res.write(buffer)
+        res.end("End of message")
     })
 
 
@@ -27,3 +31,12 @@ const server = http.createServer((req , res) => {
 server.listen(PORT , () => {
     console.log("server listening at "+PORT);
 })
+
+var routes = {
+    nearByLocation : (data , res) => {
+
+    },
+    notFound : (data , res) => {
+        res.write("No Result Found");
+    }
+}
