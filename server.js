@@ -22,10 +22,8 @@ const server = http.createServer((req , res) => {
         buffer+=data;
         if(method == http.METHODS[19]){
 
-            var route = typeof route[path] != "undefined" ? routes[nearByLocation] : routes[notFound]
-
-            
-            
+            var route = typeof routes[path] != "undefined" ? routes[path] : routes[notFound]
+            route(buffer.toString() , res)
 
         }
 
@@ -49,18 +47,18 @@ server.listen(PORT , () => {
 
 var routes = {
     nearByLocation : (data , res) => {
-        var payLoad = {
-            name:"Saneen" ,
-            class: "itb",
-        }
+        var {coordinates} = data
         res.setHeader('Content_Type','application/json')
         res.setHeader('Access-Control-Allow-Origin','*')
         res.writeHead(200)
-        res.write(payLoad)
+        res.write(coordinates)
         res.end()
     },
     notFound : (data , res) => {
         res.write("No Result Found");
         res.end()
+    },
+    saneen : () => {
+        console.log("this is saneen");
     }
 }
