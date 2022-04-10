@@ -51,11 +51,11 @@ var routes = {
 
         var {coordinates} = JSON.parse(data)
 
-        await connectMongoDB(coordinates[1] , coordinates[0]).catch(console.error)
+        var nearByLocations = await connectMongoDB(coordinates[1] , coordinates[0]).catch(console.error)
 
         res.setHeader('Content_Type','application/json')
         res.setHeader('Access-Control-Allow-Origin','*')
-        res.write(JSON.stringify(coordinates))
+        res.write(JSON.stringify(nearByLocations))
         res.end()
 
     },
@@ -74,10 +74,11 @@ var connectMongoDB = async (longitude , latitude) => {
 
     const uri = 'mongodb+srv://test:0kUkd360hKNaraDd@location-testing.mny1q.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
     const client = new MongoClient(uri)
+    var locations;
 
     try{
         await client.connect();
-        await findNearest(client , longitude , latitude)
+        locations = await findNearest(client , longitude , latitude)
         console.log("Mongo DB connected : ");
     }catch(e){
         console.log("Mongo error : " + e);
@@ -85,6 +86,7 @@ var connectMongoDB = async (longitude , latitude) => {
         console.log("MongoDB connection closing : ");
         await client.close()
     }
+    return locations;
 }
 
 var findNearest = async (client , longitude , latitude) => {
@@ -111,8 +113,8 @@ var findNearest = async (client , longitude , latitude) => {
     const finalResult = await resultCursor.toArray();
     if(finalResult.length === 0){
         console.log("sorry no results found : ");
-    }else{
-        console.log(finalResult);
+        return
     }
 
+    return finalResult
 }
