@@ -6,6 +6,7 @@ var main = async () => {
     const client  = new MongoClient(uri);
 
     try{
+
         await client.connect();
         await findNearest(client , 76.33359932340682, 10.044324207119644)
 
@@ -88,7 +89,7 @@ var main = async () => {
     }finally{
         await client.close();
     }
-
+    
 }
 
 main().catch(console.error)

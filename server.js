@@ -12,17 +12,18 @@ const server = http.createServer((req , res) => {
 
     var parsedURL = url.parse(req.url , true);
     var path = parsedURL.pathname;
-    var queryString = parsedURL.query;
 
+    var queryString = parsedURL.query;
     var headers = req.headers;
+
     var method = req.method.toUpperCase();
-    
     var decoder = new StringDecoder('utf-8')
 
     path = path.replace(/^\/+|\/+$/g,"");
 
     var buffer = "";
 
+    console.log(http.STATUS_CODES);
 
     req.on('data' , (data) =>{
 
@@ -31,12 +32,12 @@ const server = http.createServer((req , res) => {
 
     req.on('end' , () => {
         if(method == http.METHODS[19]){
+
             var route = typeof routes[path] != "undefined" ? routes[path] : routes[notFound]
             route(buffer, res)
+
         }
     })
-
-
 
 })
 
@@ -45,14 +46,18 @@ server.listen(PORT , () => {
 })
 
 var routes = {
-    nearByLocation : (data , res) => {
+
+    nearByLocation : async (data , res) => {
 
         var {coordinates} = JSON.parse(data)
-        connectMongoDB().catch(console.error)
+
+        await connectMongoDB(coordinates[1] , coordinates[0]).catch(console.error)
+
         res.setHeader('Content_Type','application/json')
         res.setHeader('Access-Control-Allow-Origin','*')
         res.write(JSON.stringify(coordinates))
         res.end()
+
     },
     notFound : (data , res) => {
         res.write("No Result Found");
@@ -62,20 +67,52 @@ var routes = {
         res.write("Thi is saneen")
         res.end()
     }
+
 }
 
-var connectMongoDB = async () => {
+var connectMongoDB = async (longitude , latitude) => {
 
     const uri = 'mongodb+srv://test:0kUkd360hKNaraDd@location-testing.mny1q.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
     const client = new MongoClient(uri)
 
     try{
         await client.connect();
-        console.log("Mongo DB connected");
+        await findNearest(client , longitude , latitude)
+        console.log("Mongo DB connected : ");
     }catch(e){
         console.log("Mongo error : " + e);
     }finally{
-        console.log("MongoDB connection closing");
+        console.log("MongoDB connection closing : ");
         await client.close()
     }
+}
+
+var findNearest = async (client , longitude , latitude) => {
+
+    const result = await client.db("sample_location") .collection("UsersAndLocations").createIndex({"location" : "2dsphere"})
+    const resultCursor = await client.db("sample_location") .collection("UsersAndLocations").find(
+    {
+        location: 
+        {
+            $near: 
+            { 
+                $geometry : 
+                { 
+                    type: "Point" , 
+                    coordinates : [longitude , latitude] 
+                }, 
+                $maxDistance: 100,
+                $minDistance: 30,
+            }, 
+        }, 
+    }
+    )
+
+    const finalResult = await resultCursor.toArray();
+    if(finalResult.length === 0){
+        console.log("sorry no results found : ");
+    }else{
+        console.log(finalResult);
+    }
+
 }
