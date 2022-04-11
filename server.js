@@ -1,6 +1,7 @@
-const http = require('http');
-const { type } = require('os');
+
 const url = require('url');
+const http = require('http');
+
 const { StringDecoder } = require('string_decoder');
 
 const {MongoClient} = require('mongodb');
@@ -13,17 +14,25 @@ const server = http.createServer((req , res) => {
     var parsedURL = url.parse(req.url , true);
     var path = parsedURL.pathname;
 
+
+
     var queryString = parsedURL.query;
     var headers = req.headers;
 
     var method = req.method.toUpperCase();
+
+    
+
     var decoder = new StringDecoder('utf-8')
+
+
 
     path = path.replace(/^\/+|\/+$/g,"");
 
     var buffer = "";
 
     console.log(http.STATUS_CODES);
+
 
     req.on('data' , (data) =>{
 
@@ -41,9 +50,7 @@ const server = http.createServer((req , res) => {
 
 })
 
-server.listen(PORT , () => {
-    console.log("server listening at "+PORT);
-})
+server.listen(PORT , console.log("server listening at "+PORT))
 
 var routes = {
 
